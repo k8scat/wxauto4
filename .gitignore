@@ -1,3 +1,4 @@
 *.ipynb
+*.bat
 wxauto_logs
 __pycache__
