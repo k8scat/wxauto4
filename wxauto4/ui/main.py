@@ -108,11 +108,16 @@ class WeChatSubWnd(BaseUISubWnd):
     
     def get_new_msgs(self):
         return self._get_chatbox().get_new_msgs()
-    
-    # def get_msg_by_id(self, msg_id: str):
-    #     return self._get_chatbox().get_msg_by_id(msg_id)
 
-    
+
+version_error_msg = """
+错误：未找到可用的微信窗口
+
+wxauto4项目目前仅适用于4.0.5.x版本客户端
+下载链接：https://github.com/SiverKing/wechat4.0-windows-versions/releases/download/v4.0.5.26/weixin_4.0.5.26.exe
+
+提示：推荐使用适用于3.9客户端的wxauto项目(https://github.com/cluic/wxauto)，更加稳定
+"""
 
 class WeChatMainWnd(WeChatSubWnd):
     _ui_cls_name: str = 'mmui::MainWindow'
@@ -127,13 +132,13 @@ class WeChatMainWnd(WeChatSubWnd):
         else:
             wxs = [i for i in GetAllWindows() if i[1] == self._win_cls_name]
             if len(wxs) == 0:
-                raise Exception('未找到已登录的微信主窗口')
+                raise Exception(version_error_msg)
             for index, (hwnd, clsname, winname) in enumerate(wxs):
                 self._setup_ui(hwnd)
                 if self.control.ClassName == self._ui_cls_name:
                     break
                 elif index+1 == len(wxs):
-                    raise Exception(f'未找到微信窗口：{nickname}')
+                    raise Exception(version_error_msg)
         # if NetErrInfoTipsBarWnd(self):
         #     raise NetWorkError('微信无法连接到网络')
         
